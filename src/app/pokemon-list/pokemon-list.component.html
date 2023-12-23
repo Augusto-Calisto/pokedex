@@ -6,3 +6,5 @@
 </div>
 
 <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url"></app-pokemon-card>
+
+<mat-paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" aria-label="Select page"></mat-paginator>
