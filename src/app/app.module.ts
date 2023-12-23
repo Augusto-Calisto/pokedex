@@ -9,6 +9,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
+import { PokedexService } from './service/pokedex.service';
+
 @NgModule({
 	declarations: [
     	AppComponent
@@ -22,6 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
 		MatInputModule,
 		MatButtonModule
   	],
+
+	providers: [PokedexService],
 
   	bootstrap: [AppComponent]
 })
