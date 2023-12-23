@@ -1,0 +1,9 @@
+.formFiltroPokemon {
+    margin-top: 5rem;
+    display: grid;
+    justify-content: end;
+}
+
+.formFiltroPokemon > button{
+    margin-left: 1rem;
+}
