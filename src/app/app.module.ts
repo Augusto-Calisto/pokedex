@@ -10,10 +10,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 import { PokedexService } from './service/pokedex.service';
+import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
+import { PokemonCardComponent } from './pokemon-card/pokemon-card.component';
 
 @NgModule({
 	declarations: [
-    	AppComponent
+    	AppComponent,
+		PokemonListComponent,
+		PokemonCardComponent
   	],
 
   	imports: [

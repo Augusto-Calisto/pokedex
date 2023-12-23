@@ -29,8 +29,6 @@ export class PokemonListComponent implements OnInit {
 
 					this.pokemons.push(pokemon);					
 				});
-				
-				console.log(this.pokemons);
 			})
 	}
 

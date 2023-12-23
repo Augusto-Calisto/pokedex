@@ -1,0 +1,8 @@
+<div class="formFiltroPokemon">
+    <mat-form-field appearance="outline">
+        <mat-label> Filtro Pokemon </mat-label>
+        <input matInput type="text" placeholder="Digite o nome do pokemon">
+    </mat-form-field>
+</div>
+
+<app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url"></app-pokemon-card>
