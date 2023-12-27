@@ -1,4 +1,9 @@
-<div class="card-pokemon">
+<div [class]="'card-pokemon ' + habilidade">
+    <div class="numero-pokemon">
+        <b> #{{ numero }} </b>
+    </div>
+
     <img [src]="url" width="200px" height="200px"/>
+
     <b> {{ nome }} </b>
 </div>

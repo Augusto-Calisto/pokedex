@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { PokedexService } from '../service/pokedex.service';
 
 import { PageEvent } from '@angular/material';
+import { tap } from 'rxjs';
 
 @Component({
 	selector: 'app-pokemon-list',
@@ -13,7 +14,7 @@ export class PokemonListComponent implements OnInit {
 	@Input("length")
 	total: number;
 	
-	public pokemons: any = []
+	public pokemons: any = [];
 	private contador = 1;
 
 	constructor(private pokedexService: PokedexService) {
@@ -22,25 +23,40 @@ export class PokemonListComponent implements OnInit {
 
 	@Output("page")
 	paginacao(event: PageEvent) {
+		let totalPokemons = event.length;
+		
 		let limit = event.pageSize; // Padrão que coloquei foi 12
 
 		let offset = 0;
 
-		if(event.previousPageIndex != undefined) {
-			let numeroDaPagina = event.pageIndex;
+		let numeroPaginaAnterior = event.previousPageIndex;
 
-			let indicePagina = event.previousPageIndex;
+		if(numeroPaginaAnterior != undefined) {
+			let numeroDaPaginaAtual = event.pageIndex;
 
-			if(numeroDaPagina > indicePagina) {
-				offset = indicePagina * limit + 12;
+			let numeroUltimaPagina = Math.trunc(totalPokemons / 12);
+
+			if(numeroDaPaginaAtual > numeroPaginaAnterior) {
+				offset = numeroPaginaAnterior * limit + 12;
 			} else {				
-				offset = indicePagina * limit - 12;
+				offset = numeroPaginaAnterior * limit - 12;
 
-				if(numeroDaPagina == 0) {
+				if(numeroDaPaginaAtual == 0) {
+					offset = 0;
 					this.contador = 1; // Caso seja a primeira pagina
 				} else {
 					this.contador = this.contador - 24;
 				}
+			}
+
+			if(numeroDaPaginaAtual == numeroUltimaPagina) {
+				offset = numeroPaginaAnterior * limit + 12;
+
+				console.log(numeroPaginaAnterior, offset, limit);
+				
+				this.contador = totalPokemons - 12;
+
+				console.log('ultima pagina');
 			}
 		}
 
@@ -55,7 +71,7 @@ export class PokemonListComponent implements OnInit {
 
 	buscarPokemons(offset: number, limit: number, contador: number) {
 		this.pokedexService.carregarPokemons(offset, limit)
-			.subscribe((response) => {
+			.subscribe((response) => {				
 				this.total = response.count;
 
 				let pokemonsResponseApi = response.results;
@@ -66,16 +82,29 @@ export class PokemonListComponent implements OnInit {
 					let numeroImagemPokemonFormatado = contador.toString().padStart(3, '0'); // Sempre tem que ter tres caracteres, caso não tenha, preencher com zero na esquerda
 					
 					let pokemon = {
-						nome: pokemonApi.name.toUpperCase() + ' - ' + contador,
-						url: `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${numeroImagemPokemonFormatado}.png`
+						numero: numeroImagemPokemonFormatado,
+						nome: pokemonApi.name.toUpperCase(),
+						url: `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${numeroImagemPokemonFormatado}.png`,
+						classe: ''
 					}
 
+					this.pokedexService.buscarHabilidadesPokemon(pokemonApi.url)
+						.pipe(tap((response) => {
+							let habilidades = response.types;
+				
+							if(habilidades.length > 0) {
+								let nomeHabilidade = habilidades[0].type.name;
+								pokemon.classe = nomeHabilidade;
+							}
+						}))
+						.subscribe()
+					
 					this.pokemons.push(pokemon);
-
+					
 					contador++;
-
-					this.contador = contador;
 				});
+
+				this.contador = contador;
 			})
 	}
 

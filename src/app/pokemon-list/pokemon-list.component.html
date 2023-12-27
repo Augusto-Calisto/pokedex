@@ -5,6 +5,6 @@
     </mat-form-field>
 </div>
 
-<app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url"></app-pokemon-card>
+<app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
 
-<mat-paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" aria-label="Select page"></mat-paginator>
+<mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page"></mat-paginator>

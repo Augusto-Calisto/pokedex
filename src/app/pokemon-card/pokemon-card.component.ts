@@ -12,8 +12,16 @@ export class PokemonCardComponent {
 	@Input("url")
 	url: string;
 
+	@Input("numero")
+	numero: number;
+
+	@Input("habilidade")
+	habilidade: string;
+
 	constructor() {
-		this.nome = "",
-		this.url = ""
+		this.nome = '',
+		this.url = '',
+		this.numero = 0,
+		this.habilidade = ''
 	}
 }

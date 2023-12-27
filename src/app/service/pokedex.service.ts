@@ -11,4 +11,8 @@ export class PokedexService {
 	public carregarPokemons(offset: number, limit: number): Observable<any> {		
 		return this.httpClient.get<any>(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
   	}
+
+	public buscarHabilidadesPokemon(urlHabilidades: string): Observable<any> {		
+		return this.httpClient.get<any>(urlHabilidades);
+  	}
 }
