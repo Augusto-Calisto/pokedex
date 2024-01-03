@@ -1,10 +1,20 @@
-<div class="formFiltroPokemon">
-    <mat-form-field appearance="outline">
-        <mat-label> Filtro Pokemon </mat-label>
-        <input matInput type="text" placeholder="Digite o nome do pokemon">
-    </mat-form-field>
+<div id="listaPokemons">
+    <form (ngSubmit)="pesquisarPokemon($event)" class="formFiltroPokemon">
+        <mat-form-field appearance="outline">
+            <mat-label> Filtro Pokemon </mat-label>
+            <input [(ngModel)]="filtro" matInput name="nome" type="text" placeholder="Digite o nome do pokemon" matTooltip="Para mostrar todos os pokemons, deixar em branco" aria-label="Input that displays a tooltip when focused or hovered over">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit"> Buscar </button>
+    </form>
+
+    <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
+
+    <mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page"></mat-paginator>
+
+    <ng-template #snackBarTemplate>
+        <span class="example-pizza-party" matSnackBarLabel>
+            Pizza party!!!
+        </span>
+    </ng-template>
 </div>
-
-<app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
-
-<mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page"></mat-paginator>

@@ -3,7 +3,8 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { PokedexService } from '../service/pokedex.service';
 
 import { PageEvent } from '@angular/material';
-import { tap } from 'rxjs';
+
+import { catchError, tap } from 'rxjs';
 
 @Component({
 	selector: 'app-pokemon-list',
@@ -13,12 +14,16 @@ import { tap } from 'rxjs';
 export class PokemonListComponent implements OnInit {
 	@Input("length")
 	total: number;
-	
-	public pokemons: any = [];
+
 	private contador = 1;
 
+	public pokemons: any;
+	public filtro: string;
+
 	constructor(private pokedexService: PokedexService) {
+		this.pokemons = [];
 		this.total = 0;
+		this.filtro = '';
 	}
 
 	@Output("page")
@@ -106,6 +111,67 @@ export class PokemonListComponent implements OnInit {
 
 				this.contador = contador;
 			})
+	}
+
+	pesquisarPokemon(e: Event) {
+		e.preventDefault();
+
+		this.filtro = this.filtro.toLowerCase();
+		
+		this.pokedexService.buscarPokemonPeloNome(this.filtro)
+			.pipe(catchError(exception => {
+				if(exception.status === 404) {					
+					alert('Pokemon não encontrado');
+				}
+
+				return '';
+			}))
+			.subscribe((response: any) => {
+				let estaVazio = this.filtro == '';
+
+				// console.log('results' in response);
+				
+				// console.log(Object.getOwnPropertyDescriptor(response, 'results'));
+
+				if(estaVazio) {
+					this.buscarPokemons(0, 12, this.contador);
+				} else {
+					this.renderizarCardPokemon(response);
+				}
+			})
+	}
+
+	renderizarCardPokemon(response: any) {
+		this.pokemons = [];
+
+		let pokemon = {
+			numero: '',
+			nome: '',
+			url: '',
+			classe: ''
+		}	
+
+		let pokemonApi = response;
+		let numero = response.id;
+
+		let numeroImagemPokemonFormatado = numero.toString().padStart(3, '0'); // Sempre tem que ter tres caracteres, caso não tenha, preencher com zero na esquerda
+
+		pokemon.numero = numeroImagemPokemonFormatado;
+		pokemon.nome = pokemonApi.name.toUpperCase();
+		pokemon.url = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${numeroImagemPokemonFormatado}.png`;
+
+		let habilidades = pokemonApi.types;
+
+		if(habilidades.length > 0) {
+			let nomeHabilidade = habilidades[0].type.name;
+			pokemon.classe = nomeHabilidade;
+		}
+		
+		this.pokemons.push(pokemon);
+
+		this.contador = 1;
+
+		this.total = 1;
 	}
 
 	ngOnInit(): void {
