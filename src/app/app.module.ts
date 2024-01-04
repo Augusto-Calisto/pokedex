@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 import { PokedexService } from './service/pokedex.service';
 import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
@@ -33,7 +34,8 @@ import { PokemonCardComponent } from './pokemon-card/pokemon-card.component';
 		MatPaginatorModule,
 		MatInputModule,
 		MatButtonModule,
-		MatTooltipModule
+		MatTooltipModule,
+		MatSelectModule
   	],
 
 	providers: [PokedexService],

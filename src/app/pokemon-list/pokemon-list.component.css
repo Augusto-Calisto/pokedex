@@ -1,9 +1,16 @@
-.formFiltroPokemon {
+#listaPokemons {
     margin-top: 5rem;
-    display: grid;
-    justify-content: end;
 }
 
-.formFiltroPokemon > button{
+#filtros {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filtroHabilidades {
+    margin-left: 1rem;
+}
+
+.formFiltroPokemon > button {
     margin-left: 1rem;
 }

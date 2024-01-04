@@ -1,20 +1,40 @@
 <div id="listaPokemons">
-    <form (ngSubmit)="pesquisarPokemon($event)" class="formFiltroPokemon">
-        <mat-form-field appearance="outline">
-            <mat-label> Filtro Pokemon </mat-label>
-            <input [(ngModel)]="filtro" matInput name="nome" type="text" placeholder="Digite o nome do pokemon" matTooltip="Para mostrar todos os pokemons, deixar em branco" aria-label="Input that displays a tooltip when focused or hovered over">
+    <div id="filtros">
+        <mat-form-field appearance="fill" class="filtroHabilidades">
+            <mat-label> Habilidades </mat-label>
+    
+            <mat-select [multiple]="true" matTooltip="Filtre os pokemons pelas habilidades" aria-label="Select that displays a tooltip when focused or hovered over">
+                <mat-option value="grass"> Grama </mat-option>
+                <mat-option value="water"> Água </mat-option>
+                <mat-option value="fire"> Fogo </mat-option>
+                <mat-option value="normal"> Normal </mat-option>
+                <mat-option value="poison"> Venenoso </mat-option>
+                <mat-option value="bug"> Inseto </mat-option>
+                <mat-option value="electric"> Eletricidade </mat-option>
+                <mat-option value="fairy"> Fada </mat-option>
+                <mat-option value="ground"> Terra </mat-option>
+                <mat-option value="fighting"> Lutador </mat-option>
+                <mat-option value="psychic"> Psiquíco </mat-option>
+                <mat-option value="ghost"> Fantasma </mat-option>
+                <mat-option value="rock"> Pedra </mat-option>
+                <mat-option value="steel"> Aço </mat-option>
+                <mat-option value="ice"> Gelo </mat-option>
+                <mat-option value="dragon"> Dragão </mat-option>
+                <mat-option value="dark"> Obscuro </mat-option>
+            </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit"> Buscar </button>
-    </form>
+        <form (ngSubmit)="pesquisarPokemon($event)" class="formFiltroPokemon">
+            <mat-form-field appearance="outline">
+                <mat-label> Filtro Pokemon </mat-label>
+                <input [(ngModel)]="filtro" matInput name="nome" type="text" placeholder="Digite o Nome ou Número do Pokémon" matTooltip="Para mostrar todos os pokemons, deixar em branco" aria-label="Input that displays a tooltip when focused or hovered over">
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit"> Buscar </button>
+        </form>
+    </div>
 
     <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
 
     <mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page"></mat-paginator>
-
-    <ng-template #snackBarTemplate>
-        <span class="example-pizza-party" matSnackBarLabel>
-            Pizza party!!!
-        </span>
-    </ng-template>
 </div>
