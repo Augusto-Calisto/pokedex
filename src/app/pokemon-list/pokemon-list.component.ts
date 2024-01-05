@@ -15,7 +15,8 @@ export class PokemonListComponent implements OnInit {
 	@Input("length")
 	total: number;
 
-	private contador = 1;
+	private quantidadePokemonsPorPagina: number;
+	private contador: number;
 
 	public pokemons: any;
 	public filtro: string;
@@ -24,6 +25,8 @@ export class PokemonListComponent implements OnInit {
 		this.pokemons = [];
 		this.total = 0;
 		this.filtro = '';
+		this.contador = 1;
+		this.quantidadePokemonsPorPagina = 12;
 	}
 
 	@Output("page")
@@ -39,8 +42,6 @@ export class PokemonListComponent implements OnInit {
 		if(numeroPaginaAnterior != undefined) {
 			let numeroDaPaginaAtual = event.pageIndex;
 
-			let numeroUltimaPagina = Math.trunc(totalPokemons / 12);
-
 			if(numeroDaPaginaAtual > numeroPaginaAnterior) {
 				offset = numeroPaginaAnterior * limit + 12;
 			} else {				
@@ -54,6 +55,8 @@ export class PokemonListComponent implements OnInit {
 				}
 			}
 
+			let numeroUltimaPagina = Math.trunc(totalPokemons / 12);
+
 			if(numeroDaPaginaAtual == numeroUltimaPagina) {
 				offset = numeroPaginaAnterior * limit + 12;
 
@@ -62,6 +65,21 @@ export class PokemonListComponent implements OnInit {
 				this.contador = totalPokemons - 12;
 
 				console.log('ultima pagina');
+			}
+			
+			if(limit > this.quantidadePokemonsPorPagina) {
+				if(numeroDaPaginaAtual >= numeroPaginaAnterior) {
+					offset = numeroDaPaginaAtual * limit;
+				} else {
+					offset = numeroPaginaAnterior * limit / 2;
+
+					this.contador = offset + 1;
+
+					if(numeroDaPaginaAtual == 0) {
+						offset = 0;
+						this.contador = 1;
+					}
+				}
 			}
 		}
 
@@ -78,7 +96,7 @@ export class PokemonListComponent implements OnInit {
 		this.pokedexService.carregarPokemons(offset, limit)
 			.subscribe((response) => {				
 				this.total = response.count;
-
+				
 				let pokemonsResponseApi = response.results;
 
 				this.pokemons = [];
