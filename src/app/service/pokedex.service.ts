@@ -21,4 +21,8 @@ export class PokedexService {
 	public buscarHabilidadesPokemon(urlHabilidades: string): Observable<any> {		
 		return this.httpClient.get<any>(urlHabilidades);
   	}
+
+	public buscarPokemonsPelaHabilidade(nomeHabilidade: string): Observable<any> {
+		return this.httpClient.get<any>(`${this.baseURL}/type/${nomeHabilidade}`);
+	}
 }

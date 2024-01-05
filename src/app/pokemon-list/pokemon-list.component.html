@@ -3,7 +3,8 @@
         <mat-form-field appearance="fill" class="filtroHabilidades">
             <mat-label> Habilidades </mat-label>
     
-            <mat-select [multiple]="true" matTooltip="Filtre os pokemons pelas habilidades" aria-label="Select that displays a tooltip when focused or hovered over">
+            <mat-select [(ngModel)]="habilidadeSelecionada" (ngModelChange)="habilidadesSelecionadas()" name="habilidade" matTooltip="Filtre os pokemons pelas habilidades" aria-label="Select that displays a tooltip when focused or hovered over">
+                <mat-option value=""> Todas </mat-option>
                 <mat-option value="grass"> Grama </mat-option>
                 <mat-option value="water"> Água </mat-option>
                 <mat-option value="fire"> Fogo </mat-option>
@@ -36,5 +37,5 @@
 
     <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
 
-    <mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page"></mat-paginator>
+    <mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page" ></mat-paginator>
 </div>

@@ -20,6 +20,7 @@ export class PokemonListComponent implements OnInit {
 
 	public pokemons: any;
 	public filtro: string;
+	public habilidadeSelecionada: string;
 
 	constructor(private pokedexService: PokedexService) {
 		this.pokemons = [];
@@ -27,6 +28,7 @@ export class PokemonListComponent implements OnInit {
 		this.filtro = '';
 		this.contador = 1;
 		this.quantidadePokemonsPorPagina = 12;
+		this.habilidadeSelecionada = ''
 	}
 
 	@Output("page")
@@ -157,6 +159,42 @@ export class PokemonListComponent implements OnInit {
 					this.renderizarCardPokemon(response);
 				}
 			})
+	}
+
+	habilidadesSelecionadas() {
+		if(this.habilidadeSelecionada != "") {
+			this.pokedexService.buscarPokemonsPelaHabilidade(this.habilidadeSelecionada)
+				.subscribe((response: any) => {
+					let pokemonsApi = response.pokemon;
+
+					this.pokemons = [];
+
+					pokemonsApi.forEach((pokemonApi: any) => {
+						let pokemonFiltroApi = pokemonApi.pokemon;
+
+						let urlPokemon = pokemonFiltroApi.url;
+											
+						let numeroDoPokemon = urlPokemon.toString().match(/\/([^\/]+)\/?$/)[1];
+						
+						let numeroImagemPokemonFormatado = numeroDoPokemon.toString().padStart(3, '0');
+
+						let pokemon = {
+							numero: numeroImagemPokemonFormatado,
+							nome: pokemonFiltroApi.name.toUpperCase(),
+							url: `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${numeroImagemPokemonFormatado}.png`,
+							classe: this.habilidadeSelecionada
+						}
+
+						if(numeroDoPokemon <= 1009) {
+							this.pokemons.push(pokemon);
+						}
+					});
+
+					this.total = this.pokemons.length;
+				})
+		} else {
+			this.buscarPokemons(0, 12, 1);
+		}
 	}
 
 	renderizarCardPokemon(response: any) {
