@@ -35,7 +35,9 @@
         </form>
     </div>
 
-    <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
+    <div class="cards-pokemons">
+        <app-pokemon-card *ngFor="let pokemon of pokemons" [nome]="pokemon.nome" [url]="pokemon.url" [numero]="pokemon.numero" [habilidade]="pokemon.classe"></app-pokemon-card>
+    </div>
 
     <mat-paginator #paginator [length]="total" [pageSize]="12" [pageSizeOptions]="[12, 24, 36, 48]" (page)="paginacao($event)" [showFirstLastButtons]="true" aria-label="Select page" ></mat-paginator>
 </div>

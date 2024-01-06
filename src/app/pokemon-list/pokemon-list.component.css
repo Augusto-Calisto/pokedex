@@ -14,3 +14,21 @@
 .formFiltroPokemon > button {
     margin-left: 1rem;
 }
+
+@media (max-width: 550px) {
+    #filtros {
+        display: inline-flex;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1199px) {
+    .cards-pokemons {
+        display: inline-flex;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
