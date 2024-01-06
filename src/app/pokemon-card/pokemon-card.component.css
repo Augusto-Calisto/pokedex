@@ -22,8 +22,14 @@
 }
 
 .numero-pokemon {
-    text-align: left;
-    box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+    display: flex;
+    justify-content: flex-start;
+    width: 95%;
+    font-size: large;
+}
+
+.numero-pokemon > b {
+    box-shadow: 0 1px 6px rgba(255, 255, 255, 0.993);
     padding: 10px;
     border-radius: 25px;
 }
