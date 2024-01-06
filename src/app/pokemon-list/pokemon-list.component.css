@@ -15,6 +15,14 @@
     margin-left: 1rem;
 }
 
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
 @media (max-width: 550px) {
     #filtros {
         display: inline-flex;

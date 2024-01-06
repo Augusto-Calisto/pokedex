@@ -32,9 +32,7 @@ export class PokemonListComponent implements OnInit {
 	}
 
 	@Output("page")
-	paginacao(event: PageEvent) {
-		let totalPokemons = event.length;
-		
+	paginacao(event: PageEvent) {		
 		let limit = event.pageSize; // Padrão que coloquei foi 12
 
 		let offset = 0;
@@ -57,16 +55,12 @@ export class PokemonListComponent implements OnInit {
 				}
 			}
 
-			let numeroUltimaPagina = Math.trunc(totalPokemons / 12);
+			let numeroUltimaPagina = Math.trunc(this.total / 12);
 
 			if(numeroDaPaginaAtual == numeroUltimaPagina) {
-				offset = numeroPaginaAnterior * limit + 12;
-
-				console.log(numeroPaginaAnterior, offset, limit);
+				offset = numeroUltimaPagina * limit + 12;
 				
-				this.contador = totalPokemons - 12;
-
-				console.log('ultima pagina');
+				this.contador = this.total - 11;
 			}
 			
 			if(limit > this.quantidadePokemonsPorPagina) {
@@ -97,7 +91,7 @@ export class PokemonListComponent implements OnInit {
 	buscarPokemons(offset: number, limit: number, contador: number) {
 		this.pokedexService.carregarPokemons(offset, limit)
 			.subscribe((response) => {				
-				this.total = response.count;
+				this.total = 1010; // Add na mão, pois, o site das imagens dos pokemons possui até o pokemon nº 1010
 				
 				let pokemonsResponseApi = response.results;
 
