@@ -130,29 +130,33 @@ export class PokemonListComponent implements OnInit {
 	pesquisarPokemon(e: Event) {
 		e.preventDefault();
 
-		this.filtro = this.filtro.toLowerCase();
-		
-		this.pokedexService.buscarPokemonPeloNome(this.filtro)
-			.pipe(catchError(exception => {
-				if(exception.status === 404) {					
-					alert('Pokemon não encontrado');
-				}
+		if(this.filtro == "" && this.contador == 13) {
+			alert("Digite o nome do Pokemon");
+		} else {
+			this.filtro = this.filtro.toLowerCase();
+			
+			this.pokedexService.buscarPokemonPeloNome(this.filtro)
+				.pipe(catchError(exception => {
+					if(exception.status === 404) {					
+						alert('Pokemon não encontrado');
+					}
 
-				return '';
-			}))
-			.subscribe((response: any) => {
-				let estaVazio = this.filtro == '';
+					return '';
+				}))
+				.subscribe((response: any) => {
+					let estaVazio = this.filtro == '';
 
-				// console.log('results' in response);
-				
-				// console.log(Object.getOwnPropertyDescriptor(response, 'results'));
+					// console.log('results' in response);
+					
+					// console.log(Object.getOwnPropertyDescriptor(response, 'results'));
 
-				if(estaVazio) {
-					this.buscarPokemons(0, 12, this.contador);
-				} else {
-					this.renderizarCardPokemon(response);
-				}
-			})
+					if(estaVazio) {
+						this.buscarPokemons(0, 12, this.contador);
+					} else {
+						this.renderizarCardPokemon(response);
+					}
+				})
+			}
 	}
 
 	habilidadesSelecionadas() {
